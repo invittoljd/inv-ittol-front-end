@@ -1,0 +1,5 @@
+<div *ngIf="alert" class="mt-2 mb-2 alert alert-dismissible fade show text-center" role="alert"
+    [ngClass]="[alert.type]">
+    <p class="m-0 fw-bold">{{ alert.text }}</p>
+    <button *ngIf="!alert.keep" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>

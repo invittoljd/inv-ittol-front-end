@@ -1,0 +1,96 @@
+<div class="modal fade" id="modalShow" tabindex="-1" aria-labelledby="modalShowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalShowLabel">Información del item</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="fw-bold" for="name">Nombre del item:</label>
+                    <p id="name">
+                        {{item?.name}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.brand">
+                    <label for="brand" class="form-label fw-bold">Marca del item</label>
+                    <p id="brand">
+                        {{item?.brand}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.model">
+                    <label for="model" class="form-label fw-bold">Modelo del item</label>
+                    <p id="model">
+                        {{item?.model}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.serial">
+                    <label for="serial" class="form-label fw-bold">Número de serie del item</label>
+                    <p id="serial">
+                        {{item?.serial}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.inventory">
+                    <label for="inventory" class="form-label fw-bold">Número de inventario del item</label>
+                    <p id="inventory">
+                        {{item?.inventory}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.nui">
+                    <label for="nui" class="form-label fw-bold">NUI del item</label>
+                    <p id="nui">
+                        {{item?.nui}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.location">
+                    <label for="location" class="form-label fw-bold">Ubicación del item</label>
+                    <p id="location">
+                        {{item?.location}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.manager">
+                    <label for="manager" class="form-label fw-bold">Encargado del item</label>
+                    <p id="manager">
+                        {{item?.manager}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.stock">
+                    <label for="stock" class="form-label fw-bold">Stock del item</label>
+                    <p id="stock">
+                        {{item?.stock}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.formula">
+                    <label for="formula" class="form-label fw-bold">Formula del item</label>
+                    <p id="formula">
+                        {{item?.formula}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.presentation">
+                    <label for="presentation" class="form-label fw-bold">Presentación del item</label>
+                    <p id="presentation">
+                        {{item?.presentation}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.lot">
+                    <label for="lot" class="form-label fw-bold">Lote del item</label>
+                    <p id="lot">
+                        {{item?.lot}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.expirationDate">
+                    <label for="expirationDate" class="form-label fw-bold">Fecha de caducidad del item</label>
+                    <p id="expirationDate">
+                        {{item?.expirationDate}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="item?.quantity">
+                    <label for="quantity" class="form-label fw-bold">Cantidad por unidad del item</label>
+                    <p id="quantity">
+                        {{item?.quantity}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<main class="container">
+    <div class="col-12">
+        <div class="custom-header p-5 rounded text-center mt-3">
+            <p class="h4 fw-bold">{{area?.name}}</p>
+            <p class="title fw-bold">Categorías</p>
+        </div>
+    </div>
+    <!-- Sección de Cards -->
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <button data-bs-toggle="modal" data-bs-target="#modalAddCategory" class="btn mt-4 mb-2"
+                    *ngIf="isAdmin()">
+                    <img class="icon" src="assets/icons/add.svg" alt="Agregar Categoría" title="Agregar Categoría" />
+                </button>
+            </div>
+            <div class="col-12">
+                <app-category-cards [area]="area" [categories]="categories"
+                    (categorySelectedEvent)="setCategorySelected($event)" />
+            </div>
+        </div>
+    </div>
+</main>
+
+<app-category-add [area]="area" *ngIf="isAdmin()" />
+<app-category-edit [area]="area" [category]="categorySelected" *ngIf="isAdmin()" />
+<app-category-show [category]="categorySelected" />

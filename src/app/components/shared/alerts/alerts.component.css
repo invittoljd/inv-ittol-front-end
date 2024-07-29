@@ -1,0 +1,21 @@
+.div-container {
+    background-color: var(--background-color-2);
+    color: var(--color-1);
+}
+
+.title {
+    font-size: 1.5rem;
+    letter-spacing: .2rem;
+}
+
+.icon {
+    width: 2rem;
+}
+
+.btn {
+    background-color: var(--background-color-1);
+}
+
+.btn:hover {
+    border: dotted;
+}

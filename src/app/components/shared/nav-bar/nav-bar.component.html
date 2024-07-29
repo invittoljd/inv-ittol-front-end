@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary rounded">
+    <div class="container-fluid">
+        <div class="navbar-brand d-flex align-items-center">
+            <img class="icon" src="assets/logo/logo.svg" alt="Logo de la aplicación" title="Logo de la aplicación" />
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                    <a [routerLink]="['/','home']" class="nav-link" aria-current="page">Inventario</a>
+                </li>
+                <ng-container *ngIf="!isGuest()">
+                    <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                        <a [routerLink]="['/','home','request']" class="nav-link">Solicitudes</a>
+                    </li>
+                    <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                        <a [routerLink]="['/','home','itinerary']" class="nav-link">Itinerarios</a>
+                    </li>
+                </ng-container>
+
+                <ng-container *ngIf="isAdmin()">
+                    <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                        <a [routerLink]="['/','home','user',]" class="nav-link">Usuarios</a>
+                    </li>
+                    <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                        <a [routerLink]="['/','home','import',]" class="nav-link">Importar</a>
+                    </li>
+                    <li class="nav-item btn btn-outline-dark ms-2 rounded text-center p-1">
+                        <a [routerLink]="['/','home','export',]" class="nav-link">Export</a>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+        <button class="btn btn-outline-danger" [routerLink]="['/', 'auth']">
+            <img class="icon" src="assets/icons/log-out.svg" alt="Log Out">
+        </button>
+    </div>
+</nav>

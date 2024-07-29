@@ -1,0 +1,9 @@
+form {
+    background-color: var(--background-color-1);
+    max-width: 35rem;
+    width: 100%;
+}
+
+.icon{
+    width: 2.5rem;
+}

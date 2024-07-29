@@ -1,0 +1,41 @@
+<main class="container">
+    <div class="col-12">
+        <div class="custom-header p-5 rounded mt-3">
+            <p class="title fw-bold text-center">Solicitudes</p>
+        </div>
+    </div>
+    <!-- Sección para filtrar los resultados de las solicitudes -->
+    <div class="col-12 mt-3">
+        <div class="d-flex justify-content-center">
+            <div class="btn-group" role="group" aria-label="Filtro de solicitudes">
+                <input type="radio" class="btn-check" name="filterOptions" id="filterAll" value="all"
+                    (change)="filterRequests($event)">
+                <label class="btn btn-outline-dark" for="filterAll">Todas</label>
+
+                <input type="radio" class="btn-check" name="filterOptions" id="filterPending" value="pending" checked
+                    (change)="filterRequests($event)">
+                <label class="btn btn-outline-dark" for="filterPending">Pendientes</label>
+
+                <input type="radio" class="btn-check" name="filterOptions" id="filterApproved" value="approved"
+                    (change)="filterRequests($event)">
+                <label class="btn btn-outline-dark" for="filterApproved">Aprobadas</label>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 mt-3">
+                <input type="text" class="form-control text-center" placeholder="Buscar por id o nombre de usuario"
+                    (input)="searchRequests($event)">
+            </div>
+        </div>
+    </div>
+    <!-- Sección de Cards -->
+    <div class="col-12">
+        <div class="row">
+            <app-request-cards [requests]="filteredRequests" (requestSelectedEvent)="setRequestSelected($event)" />
+        </div>
+    </div>
+</main>
+
+<app-item-show [item]="requestSelected?.item" />
+<app-request-delete [requests]="filteredRequests" [request]="requestSelected" />
+<app-request-warning [request]="requestSelected" />

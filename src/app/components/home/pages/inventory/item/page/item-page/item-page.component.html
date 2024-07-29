@@ -1,0 +1,21 @@
+<main class="container">
+    <div class="col-12">
+        <div class="custom-header p-5 rounded text-center mt-3">
+            <p class="h4 fw-bold">{{area?.name}}</p>
+            <p class="h4 fw-bold">{{category?.name}}</p>
+            <p class="title fw-bold">Inventario</p>
+        </div>
+    </div>
+    <!-- Sección de Cards -->
+    <div class="col-12">
+        <div class="row">
+            <app-item-cards [area]="area" [category]="category" [items]="items"
+                (itemSelectedEvent)="setItemSelected($event)" />
+        </div>
+    </div>
+</main>
+
+<app-item-add [category]="category" *ngIf="isAdmin()" />
+<app-item-edit [category]="category" [item]="itemSelected" *ngIf="isAdmin()" />
+<app-item-show [item]="itemSelected" />
+<app-item-request [item]="itemSelected" *ngIf="!isGuest()"/>

@@ -1,0 +1,16 @@
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalDeleteLabel">¿Eliminar Solicitud?</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button data-bs-dismiss="modal" type="button" class="btn danger" title="Eliminar"
+                    (click)="deleteRequest()">
+                    <img class="icon" src="assets/icons/danger.svg" alt="Eliminar">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

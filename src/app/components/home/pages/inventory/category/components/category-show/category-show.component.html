@@ -1,0 +1,25 @@
+<div class="modal fade" id="modalShowCategory" tabindex="-1" aria-labelledby="modalShowCategoryLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalShowCategoryLabel">Información de la Categoría</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="fw-bold" for="name">Nombre de la Categoría:</label>
+                    <p id="name">
+                        {{category?.name}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="category?.about">
+                    <label for="about" class="form-label fw-bold">Información sobre el Área:</label>
+                    <p id="about">
+                        {{category?.about}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

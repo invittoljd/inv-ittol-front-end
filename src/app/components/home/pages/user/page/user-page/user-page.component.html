@@ -1,0 +1,25 @@
+<main class="container">
+    <div class="col-12">
+        <div class="custom-header p-5 rounded text-center mt-3">
+            <p class="title fw-bold">Usuarios</p>
+        </div>
+    </div>
+    <!-- Sección de Cards -->
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <button data-bs-toggle="modal" data-bs-target="#modalAddArea" class="btn mt-4 mb-2">
+                    <img class="icon" src="assets/icons/add.svg" alt="Agregar Área" title="Agregar Usuario" />
+                </button>
+            </div>
+            <div class="col-12">
+                <app-user-cards [users]="users" (userSelectedEvent)="setUserSelected($event)" />
+            </div>
+        </div>
+    </div>
+</main>
+<app-user-edit [users]="users" [user]="userSelected" />
+<app-user-add [users]="users" />
+<!-- <app-area-add [areas]="areas" [areas]="areas" />
+<app-area-show [area]="areaSelected" />
+<app-area-edit [area]="areaSelected" [areas]="areas" /> -->

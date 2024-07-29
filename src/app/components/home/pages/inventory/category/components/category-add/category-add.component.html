@@ -1,0 +1,36 @@
+<div class="modal fade" id="modalAddCategory" tabindex="-1" aria-labelledby="modalAddCategoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalAddCategoryLabel">Agregar Categoría</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body" [formGroup]="formCategory" (ngSubmit)="sendCategory()">
+                <div class="mb-3">
+                    <label for="name">Nombre de la Categoría</label>
+                    <input formControlName="name" type="text" class="form-control" id="name"
+                        placeholder="Nombre de la Categoría" />
+                </div>
+                <div class="mb-3">
+                    <label for="about" class="form-label">Información sobre la Categoría</label>
+                    <textarea formControlName="about" class="form-control" id="about"
+                        placeholder="Categoría encargada de..." rows="5"></textarea>
+                </div>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="profileImage" class="form-label">Imagen de Perfil de la Categoría</label>
+                        <div class="d-flex flex-wrap justify-content-around">
+                            <img class="img img-thumbnail p-2 m-2" *ngFor="let icon of iconsCategories" [src]="icon"
+                                alt="" (click)="selectIcon(icon)" [ngClass]="iconSelected==icon?'selected':''">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button data-bs-dismiss="modal" type="submit" class="btn" title="Agregar" (click)="sendCategory()">
+                    <img class="icon" src="assets/icons/ok.svg" alt="">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

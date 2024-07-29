@@ -1,0 +1,23 @@
+<div class="card border-dark mt-3">
+    <div class="card-header">
+        <p class="h4 text-center" *ngIf="user?.type == 0">
+            Visitante
+        </p>
+        <p class="h4 text-center" *ngIf="user?.type == getAdminType()">
+            Administrador
+        </p>
+        <p class="h4 text-center" *ngIf="user?.type != getAdminType() && user?.type != 0">
+            Usuario
+        </p>
+    </div>
+    <div class="card-body">
+        <p class="h2 text-center">{{ user?.username }}</p>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-center" (click)="setUserSelected(user)">
+            <button data-bs-toggle="modal" data-bs-target="#modalEdit" type="button" class="btn" title="Modificar">
+                <img class="icon" src="assets/icons/edit.svg" alt="Editar" />
+            </button>
+        </div>
+    </div>
+</div>

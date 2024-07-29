@@ -1,0 +1,18 @@
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed h2" type="button" data-bs-toggle="collapse"
+            [attr.data-bs-target]="'#' + message?._id" aria-expanded="false" [attr.aria-controls]="message?._id">
+            {{message?.author}}
+        </button>
+    </h2>
+    <div [id]="message?._id" class="accordion-collapse collapse" [attr.data-bs-parent]="'#' + accordionParent">
+        <div class="accordion-body">
+            <p class="h4">{{message?.message}}</p>
+            <p>ID:
+                <small>
+                    {{message?._id}}
+                </small>
+            </p>
+        </div>
+    </div>
+</div>

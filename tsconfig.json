@@ -21,7 +21,42 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@environments/*": [
+        "./src/environments/*"
+      ],
+      "@models/*": [
+        "./src/app/core/models/*"
+      ],
+      "@auth/*": [
+        "./src/app/components/auth/*"
+      ],
+      "@home/*": [
+        "./src/app/components/home/*"
+      ],
+      "@home-inventory/*": [
+        "./src/app/components/home/pages/inventory/*"
+      ],
+      "@home-request/*": [
+        "./src/app/components/home/pages/request/*"
+      ],
+      "@home-user/*": [
+        "./src/app/components/home/pages/user/*"
+      ],
+      "@home-itinerary/*": [
+        "./src/app/components/home/pages/itinerary/*"
+      ],
+      "@shared/*": [
+        "./src/app/components/shared/*"
+      ],
+      "@services/*": [
+        "./src/app/services/*"
+      ],
+      "@interceptors/*": [
+        "./src/app/interceptors/*"
+      ],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

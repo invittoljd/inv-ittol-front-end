@@ -1,0 +1,93 @@
+<div class="card mt-3">
+    <div class="card-header">
+        <p class="my-2"><span class="fw-bold">ID de la solicitud: </span>{{request?._id}}</p>
+    </div>
+    <div class="card-body">
+        <div class="mb-3 text-center">
+            <label for="title" class="fw-bold text-danger">Usuario solicitante</label>
+            <p id="title" class="h1 text-danger">
+                {{request?.author}}
+            </p>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="fw-bold">Nombre del Item</label>
+            <p id="name">
+                {{request?.item?.name}}
+            </p>
+        </div>
+        <div class="mb-3">
+            <label for="about" class="fw-bold">Información de la solicitud</label>
+            <p id="about">
+                {{request?.about}}
+            </p>
+        </div>
+        <div class="mb-3" *ngIf="request?.item?.type == 2">
+            <label for="quantity" class="fw-bold">Cantidad solicitada</label>
+            <p id="quantity">
+                {{request?.quantity}}
+            </p>
+        </div>
+        <div class="mb-3">
+            <label for="date" class="fw-bold">Fecha de la solicitud</label>
+            <p id="date">
+                {{getDate(request?.date)}}
+            </p>
+        </div>
+        <ng-container *ngIf="request?.item?.type == 1">
+            <div class="mb-3">
+                <p class="fw-bold">Revisar disponibilidad en horario:</p>
+                <p class="text-danger h4" *ngIf="status">{{status}}</p>
+                <div class="mt-4 mb-5" *ngIf="overlappingRequests">
+                    <p class="h5">ID de las solicitudes aprovadas con conflicto:</p>
+                    <p class="h6" *ngFor="let overlappingRequest of overlappingRequests">{{overlappingRequest._id}}</p>
+                </div>
+                <button class="btn btn-outline-danger" (click)="checkAvailability()">
+                    Revisar
+                </button>
+            </div>
+
+            <div class="mb-3">
+                <label for="startDate" class="fw-bold">Fecha de inicio de uso del equipo</label>
+                <p id="startDate">
+                    {{getDate(request?.startDate)}}
+                </p>
+            </div>
+            <div class="mb-3">
+                <label for="endDate" class="fw-bold">Fecha de termino de uso del equipo</label>
+                <p id="endDate">
+                    {{getDate(request?.endDate)}}
+                </p>
+            </div>
+        </ng-container>
+        
+        
+        <div class="mb-3">
+            <label for="status" class="fw-bold">Estatus de la solicitud</label>
+            <p id="status" class="h2">
+                {{request?.status?'Aprovado':'Pendiente'}}
+            </p>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-custom" title="Rechazar Solicitud"
+            (click)="setRequestSelected(request);setStatus(false, request);">
+            <img class="icon" src="assets/icons/reject.svg" alt="Rechazar">
+        </button>
+        <button data-bs-toggle="modal" data-bs-target="#modalDelete" type="button" class="btn btn-custom"
+            title="Eliminar solicitud" (click)="setRequestSelected(request)">
+            <img class="icon" src="assets/icons/danger.svg" alt="Eliminar">
+        </button>
+        <button data-bs-toggle="modal" data-bs-target="#modalWarning" type="button" class="btn btn-custom"
+            title="Reportar imprevisto con la solicitud" (click)="setRequestSelected(request)">
+            <img class="icon" src="assets/icons/warning.svg" alt="Advertencias">
+        </button>
+        <button data-bs-toggle="modal" data-bs-target="#modalShow" type="button" class="btn btn-custom"
+            title="Mostrar información del Item solicitado" (click)="setRequestSelected(request)">
+            <img class="icon" src="assets/icons/show.svg" alt="Mostrar">
+        </button>
+        <button type="button" class="btn btn-custom" title="Aceptar Solicitud"
+            (click)="setRequestSelected(request);setStatus(true, request);">
+            <img class=" icon" src="assets/icons/ok.svg" alt="Aceptar">
+        </button>
+    </div>
+</div>

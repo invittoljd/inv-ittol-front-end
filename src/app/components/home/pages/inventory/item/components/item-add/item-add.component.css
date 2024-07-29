@@ -1,0 +1,18 @@
+.img:hover, .selected {
+    background-color: var(--background-color-3);
+}
+
+.img {
+    width: 4rem;
+    cursor: pointer;
+    border: none;
+}
+
+.icon{
+    width: 2.5rem;
+}
+
+.btn:hover{
+    background-color: var(--background-color-3);
+    border: dotted;
+}

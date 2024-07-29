@@ -1,0 +1,7 @@
+<div class="row mt-4">
+    <div class="" *ngFor="let request of requests">
+        <app-request-card *ngIf="!isAdmin()" [request]="request" (requestSelectedEvent)="setRequestSelected($event)" />
+        <app-request-card-admin *ngIf="isAdmin()" [request]="request"
+            (requestSelectedEvent)="setRequestSelected($event)" />
+    </div>
+</div>

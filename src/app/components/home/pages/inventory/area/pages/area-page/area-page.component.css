@@ -1,0 +1,23 @@
+.title {
+    font-size: 2rem;
+}
+
+.custom-header {
+    background-color: rgb(255, 255, 255, .4);
+}
+
+.img:hover {
+    background: rgb(0, 0, 0, 0.5);
+}
+
+.img {
+    cursor: pointer;
+}
+
+.icon{
+    width: 2.5rem;
+}
+
+.btn:hover{
+    background-color: var(--background-color-3);
+}

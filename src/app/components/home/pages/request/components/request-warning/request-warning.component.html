@@ -1,0 +1,29 @@
+<div class="modal fade" id="modalWarning" tabindex="-1" aria-labelledby="modalWarningLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalWarningLabel">Reportar imprevisto con la solicitud</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="modal-body" [formGroup]="formMessageNew">
+                <div class="mb-3">
+                    <label for="message" class="form-label">Mensaje de reporte: </label>
+                    <textarea formControlName="message" [maxLength]="255" [minLength]="1" class="form-control"
+                        id="message" rows="3"></textarea>
+                </div>
+            </form>
+            <div class="modal-footer justify-content-between">
+                <button data-bs-toggle="modal" data-bs-target="#modalWarningMessages" type="button" class="btn"
+                    title="Mostrar mensajes enviados">
+                    <img class="icon" src="assets/icons/history.svg" alt="Mostrar">
+                </button>
+                <button (click)="sendMessage()" type="button" class="btn"
+                    title="Enviar mensaje al/los administrador(es)">
+                    <img class="icon" src="assets/icons/send.svg" alt="Enviar">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-request-warning-messages [request]="request" />

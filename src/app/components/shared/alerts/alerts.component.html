@@ -1,0 +1,9 @@
+<div class="div-container p-4 rounded">
+    <div class="col-12 d-flex align-items-center justify-content-between">
+        <p class="m-0 title">Alertas</p>
+        <button (click)="refreshPage()" class="btn" title="Actualizar">
+            <img class="icon" src="assets/icons/refresh.svg" alt="">
+        </button>
+    </div>
+    <app-alert *ngFor="let alert of alerts" [alert]="alert"></app-alert>
+</div>

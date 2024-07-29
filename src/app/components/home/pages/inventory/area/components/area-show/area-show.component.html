@@ -1,0 +1,24 @@
+<div class="modal fade" id="modalShowArea" tabindex="-1" aria-labelledby="modalShowAreaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalShowAreaLabel">Información del Área</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="name" class="fw-bold">Nombre del Área</label>
+                    <p id="name">
+                        {{area?.name}}
+                    </p>
+                </div>
+                <div class="mb-3" *ngIf="area?.about">
+                    <label for="about" class="form-label fw-bold">Información sobre el Área</label>
+                    <p id="about">
+                        {{area?.about}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

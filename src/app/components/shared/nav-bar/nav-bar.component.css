@@ -1,0 +1,11 @@
+.icon {
+    width: 2.5rem;
+}
+
+.nav-item:hover>.nav-link {
+    color: var(--color-1);
+}
+
+.nav-item {
+    border: none;
+}

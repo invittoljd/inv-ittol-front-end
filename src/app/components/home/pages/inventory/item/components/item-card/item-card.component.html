@@ -1,0 +1,25 @@
+<div class="card border-dark mt-3">
+    <p class="card-header h6 text-center">{{ item?.name }}</p>
+
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <button type="button"
+                class="col-10 col-md-6 col-lg-4 btn btn-dark fw-bold">{{item?.brand?item?.brand:item?.model}}</button>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="d-flex justify-content-between" (click)="setItemSelected(item)">
+            <button data-bs-toggle="modal" data-bs-target="#modalShow" type="button" class="btn" title="Información">
+                <img class="icon" src="assets/icons/information.svg" alt="Información" />
+            </button>
+            <button *ngIf="isAdmin()" data-bs-toggle="modal" data-bs-target="#modalEdit" type="button" class="btn"
+                title="Modificar">
+                <img class="icon" src="assets/icons/edit.svg" alt="Editar" />
+            </button>
+            <button *ngIf="!isGuest()" data-bs-toggle="modal" data-bs-target="#modalRequest" type="button" class="btn" title="Solicitar">
+                <img class="icon" src="assets/icons/show.svg" alt="Solicitar" />
+            </button>
+        </div>
+    </div>
+</div>

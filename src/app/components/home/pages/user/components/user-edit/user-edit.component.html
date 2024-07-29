@@ -1,0 +1,59 @@
+<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title fs-5 h1 ms-2" id="modalEditLabel">Editar usuario:</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form [formGroup]="formUser" (submit)="sendUser()" class="modal-body">
+                <div class="mb-3">
+                    <p class="h2">{{user?.username}}</p>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" role="switch" id="changeAccess"
+                        (change)="isTypeChangeChecked=!isTypeChangeChecked">
+                    <label class="form-check-label" for="changeAccess">¿Cambiar acceso?</label>
+                </div>
+                <div class="mb-3" *ngIf="isTypeChangeChecked">
+                    <label for="name">Tipo de usuario:</label>
+                    <div class="btn-group" role="group" aria-label="Filtro de solicitudes">
+                        <input type="radio" class="btn-check" formControlName="type" name="type" id="admin" value="1">
+                        <label class="btn btn-outline-dark" for="admin">Administrador</label>
+
+                        <input type="radio" class="btn-check" formControlName="type" name="type" id="user" value="2">
+                        <label class="btn btn-outline-dark" for="user">Usuario</label>
+
+                        <input type="radio" class="btn-check" formControlName="type" name="type" id="guest" value="0">
+                        <label class="btn btn-outline-dark" for="guest">Visitante</label>
+                    </div>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" role="switch" id="changePassword"
+                        (change)="isPasswordChangeChecked=!isPasswordChangeChecked">
+                    <label class="form-check-label" for="changePassword">¿Cambiar contraseña?</label>
+                </div>
+                <ng-container *ngIf="isPasswordChangeChecked">
+                    <div class="mb-3">
+                        <label for="password">Nueva contraseña</label>
+                        <input formControlName="password" type="password" class="form-control" id="password"
+                            placeholder="Nueva contraseña" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="passwordConfirm">Confirmar contraseña</label>
+                        <input formControlName="passwordConfirm" type="password" class="form-control"
+                            id="passwordConfirm" placeholder="Confirmar contraseña" />
+                    </div>
+                </ng-container>
+            </form>
+            <div class="modal-footer justify-content-between">
+                <button data-bs-dismiss="modal" type="button" class="btn danger" title="Eliminar"
+                    (click)="deleteUser()">
+                    <img class="icon" src="assets/icons/danger.svg" alt="Eliminar">
+                </button>
+                <button data-bs-dismiss="modal" type="submit" class="btn" title="Editar" (click)="sendUser()">
+                    <img class="icon" src="assets/icons/ok.svg" alt="Aceptar">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="card border-dark mt-3">
+    <p class="card-header h6 text-center">{{ areaItem?.name }}</p>
+    <div class="card-body">
+        <img class="img-fluid" [src]="areaItem?.src" alt="" />
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between" (click)="setAreaSelected(areaItem)">
+            <button data-bs-toggle="modal" data-bs-target="#modalShowArea" type="button" class="btn"
+                title="Información">
+                <img class="icon" src="assets/icons/information.svg" alt="Información" />
+            </button>
+            <button *ngIf="isAdmin"  data-bs-toggle="modal" data-bs-target="#modalUpdateArea" type="button" class="btn"
+                title="Modificar">
+                <img class="icon" src="assets/icons/edit.svg" alt="Editar" />
+            </button>
+            <button type="button" class="btn" (click)="navigate()" title="Ingresar">
+                <img class="icon" src="assets/icons/show.svg" alt="Ingresar" />
+            </button>
+        </div>
+    </div>
+</div>
