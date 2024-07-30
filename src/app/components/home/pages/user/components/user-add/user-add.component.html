@@ -13,17 +13,20 @@
                 </div>
                 <div class="mb-3">
                     <label for="name">Tipo de usuario:</label>
-                    <div class="btn-group" role="group" aria-label="Filtro de solicitudes">
-                        <input type="radio" class="btn-check" formControlName="type" name="type" id="admin" value="1">
-                        <label class="btn btn-outline-dark" for="admin">Administrador</label>
-
-                        <input type="radio" class="btn-check" formControlName="type" name="type" id="user" value="2">
-                        <label class="btn btn-outline-dark" for="user">Usuario</label>
-
-                        <input type="radio" class="btn-check" formControlName="type" name="type" id="guest" value="0">
-                        <label class="btn btn-outline-dark" for="guest">Visitante</label>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <div class="btn-group" role="group" aria-label="Filtro de solicitudes">
+                            <input type="radio" class="btn-check" formControlName="type" name="type" id="admin" value="1">
+                            <label class="btn btn-outline-dark" for="admin">Administrador</label>
+                
+                            <input type="radio" class="btn-check" formControlName="type" name="type" id="user" value="2">
+                            <label class="btn btn-outline-dark" for="user">Usuario</label>
+                
+                            <input type="radio" class="btn-check" formControlName="type" name="type" id="guest" value="0">
+                            <label class="btn btn-outline-dark" for="guest">Visitante</label>
+                        </div>
                     </div>
                 </div>
+                
                 <div class="mb-3">
                     <label for="password">Nueva contraseña</label>
                     <input formControlName="password" type="password" class="form-control" id="password"

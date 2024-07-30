@@ -59,8 +59,8 @@
                 </p>
             </div>
         </ng-container>
-        
-        
+
+
         <div class="mb-3">
             <label for="status" class="fw-bold">Estatus de la solicitud</label>
             <p id="status" class="h2">
@@ -68,26 +68,30 @@
             </p>
         </div>
     </div>
-    <div class="card-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-custom" title="Rechazar Solicitud"
-            (click)="setRequestSelected(request);setStatus(false, request);">
-            <img class="icon" src="assets/icons/reject.svg" alt="Rechazar">
-        </button>
-        <button data-bs-toggle="modal" data-bs-target="#modalDelete" type="button" class="btn btn-custom"
-            title="Eliminar solicitud" (click)="setRequestSelected(request)">
-            <img class="icon" src="assets/icons/danger.svg" alt="Eliminar">
-        </button>
-        <button data-bs-toggle="modal" data-bs-target="#modalWarning" type="button" class="btn btn-custom"
-            title="Reportar imprevisto con la solicitud" (click)="setRequestSelected(request)">
-            <img class="icon" src="assets/icons/warning.svg" alt="Advertencias">
-        </button>
-        <button data-bs-toggle="modal" data-bs-target="#modalShow" type="button" class="btn btn-custom"
-            title="Mostrar información del Item solicitado" (click)="setRequestSelected(request)">
-            <img class="icon" src="assets/icons/show.svg" alt="Mostrar">
-        </button>
-        <button type="button" class="btn btn-custom" title="Aceptar Solicitud"
-            (click)="setRequestSelected(request);setStatus(true, request);">
-            <img class=" icon" src="assets/icons/ok.svg" alt="Aceptar">
-        </button>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <button type="button" class="btn btn-custom" title="Rechazar Solicitud"
+                    (click)="setRequestSelected(request);setStatus(false, request);">
+                    <img class="icon" src="assets/icons/reject.svg" alt="Rechazar">
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#modalDelete" type="button" class="btn btn-custom"
+                    title="Eliminar solicitud" (click)="setRequestSelected(request)">
+                    <img class="icon" src="assets/icons/danger.svg" alt="Eliminar">
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#modalWarning" type="button" class="btn btn-custom"
+                    title="Reportar imprevisto con la solicitud" (click)="setRequestSelected(request)">
+                    <img class="icon" src="assets/icons/warning.svg" alt="Advertencias">
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#modalShow" type="button" class="btn btn-custom"
+                    title="Mostrar información del Item solicitado" (click)="setRequestSelected(request)">
+                    <img class="icon" src="assets/icons/show.svg" alt="Mostrar">
+                </button>
+                <button type="button" class="btn btn-custom" title="Aceptar Solicitud"
+                    (click)="setRequestSelected(request);setStatus(true, request);">
+                    <img class=" icon" src="assets/icons/ok.svg" alt="Aceptar">
+                </button>
+            </div>
+        </div>
     </div>
 </div>
