@@ -25,9 +25,10 @@ export class CategoryService {
    * @param error string con el error.
    */
   private showError(title: string, error: any) {
-    console.log('Error en el archivo: category.service.ts');
-    console.log(title, '\n\t');
-    environment.showErrors ? console.log(error) : ''
+    if (environment.showErrors) {
+      console.log('Error en el archivo: category.service.ts');
+      console.log(title, '\n\t', error);
+    }
   }
 
   /**

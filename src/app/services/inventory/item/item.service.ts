@@ -26,8 +26,10 @@ export class ItemService {
    * @param error string con el error.
    */
   private showError(title: string, error: any) {
-    console.log('Error en el archivo: category.service.ts');
-    console.log(title, '\n\t', environment.showErrors ? error : '');
+    if (environment.showErrors) {
+      console.log('Error en el archivo: category.service.ts');
+      console.log(title, '\n\t', error);
+    }
   }
 
   /**
@@ -89,7 +91,7 @@ export class ItemService {
     try {
       const response: any = await firstValueFrom(this.http.put(this.apiUrl + "/" + item._id, { item }));
       if (response) {
-        const { message, item:itemUpdated } = response;
+        const { message, item: itemUpdated } = response;
         if (itemUpdated) {
           return itemUpdated;
         }

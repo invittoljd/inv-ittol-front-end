@@ -32,8 +32,10 @@ export class AreaService {
    * @param error string con el error.
    */
   private showError(title: string, error: any) {
-    console.log('Error en el archivo: area.service.ts');
-    console.log(title, '\n\t', environment.showErrors ? error : '');
+    if (environment.showErrors) {
+      console.log('Error en el archivo: area.service.ts');
+      console.log(title, '\n\t', error);
+    }
   }
 
   getIconsArea(): Array<string> {
