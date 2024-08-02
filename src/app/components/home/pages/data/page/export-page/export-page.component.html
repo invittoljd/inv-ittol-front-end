@@ -6,7 +6,39 @@
             </div>
         </div>
         <!-- Sección -->
-        <div class="col-12">
+        <form class="col-12 mt-5">
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="isEquipment"
+                    (change)="isEquipmentChecked=!isEquipmentChecked; getAreas()" checked>
+                <label class="form-check-label h6"
+                    for="isEquipment">{{isEquipmentChecked?'Equipos':'Reactivos'}}</label>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="h5" for="area">Seleccionar Área:</label>
+                    <select id="area" class="form-select" aria-label="Seleccionar área" (change)="onAreaChange($event)">
+                        <option [value]="-1" selected>Seleccionar Área</option>
+                        <option [value]="area._id" *ngFor="let area of areas">{{area.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="h5" for="category">Seleccionar Categoría:</label>
+                    <select id="category" class="form-select" aria-label="Seleccionar categoría"
+                        (change)="onCategoryChange($event)">
+                        <option [value]="-1" selected>Seleccionar Categoría</option>
+                        <option [value]="category._id" *ngFor="let category of categories">{{category.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div class="col-12 mt-5">
+            <div class="row mb-3" *ngIf="link">
+                <div class="col-12">
+                    <a [href]="link" class="btn btn-success" download="equipments.xlsx">Descargar Archivo</a>
+                </div>
+            </div>
         </div>
     </div>
 </main>

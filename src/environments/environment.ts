@@ -4,11 +4,11 @@
 
 export const environment = {
     // Developer Mode
-    // url: 'http://localhost:3000',
+    url: 'http://localhost:3000',
     // url: 'http://192.168.100.130:3000',
     // Production Mode
     showErrors: true,
-    url: 'https://inv-ittol-back-end.vercel.app',
+    // url: 'https://inv-ittol-back-end.vercel.app',
     tokenName: 'token_session',
     typeAdmin: 1,
 };
