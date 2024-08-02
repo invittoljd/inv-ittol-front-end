@@ -94,9 +94,9 @@ export class ItemRequestComponent {
       type: AlertType.Danger
     };
     if (this.formRequest.valid && this.item && this.item._id) {
-      const { username, about, startDate, endDate } = this.formRequest.value; // Obtenemos la información ingresada por el usuario.
+      const { username, about, startDate, endDate, quantity } = this.formRequest.value; // Obtenemos la información ingresada por el usuario.
       const request: RequestModel = {
-        author: username, about, startDate, endDate
+        author: username, about, startDate, endDate, quantity
       };
       if (await this._requestService.addRequest(request, this.item._id)) {
         this.formRequest.reset();
