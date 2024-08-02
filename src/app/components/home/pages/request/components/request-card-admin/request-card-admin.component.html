@@ -38,7 +38,7 @@
                 <p class="fw-bold">Revisar disponibilidad en horario:</p>
                 <p class="text-danger h4" *ngIf="status">{{status}}</p>
                 <div class="mt-4 mb-5" *ngIf="overlappingRequests">
-                    <p class="h5">ID de las solicitudes aprovadas con conflicto:</p>
+                    <p class="h5">ID de las solicitudes aprobadas con conflicto:</p>
                     <p class="h6" *ngFor="let overlappingRequest of overlappingRequests">{{overlappingRequest._id}}</p>
                 </div>
                 <button class="btn btn-outline-danger" (click)="checkAvailability()">
@@ -64,7 +64,7 @@
         <div class="mb-3">
             <label for="status" class="fw-bold">Estatus de la solicitud</label>
             <p id="status" class="h2">
-                {{request?.status?'Aprovado':'Pendiente'}}
+                {{request?.status?'Aprobado':'Pendiente'}}
             </p>
         </div>
     </div>
