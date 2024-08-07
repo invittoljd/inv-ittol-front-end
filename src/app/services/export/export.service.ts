@@ -8,6 +8,8 @@ const EXCEL_EXTENSION = '.xlsx';
 
 /**Environments */
 import { environment } from '@environments/environment';
+
+/**Models */
 import { AreaModel } from '@models/inventory/area.model';
 import { CategoryModel } from '@models/inventory/category.model';
 import { ItemModel } from '@models/inventory/item.model';
@@ -94,6 +96,7 @@ export class ExportService {
     }
   }
 
+  /**Método que nos permite generar el excel de acuerdo a los items solicitados */
   private generateExcel(items: Array<ItemModel>, type: Number): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet([]);
 
@@ -156,6 +159,7 @@ export class ExportService {
   }
 
 
+  /**Método que permite generar el archivo y solicitar su descarga automáticamente */
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
     const link = document.createElement('a');
@@ -163,5 +167,4 @@ export class ExportService {
     link.download = fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION;
     link.click();
   }
-
 }
