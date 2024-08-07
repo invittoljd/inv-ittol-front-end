@@ -51,9 +51,9 @@ export class ExportPageComponent {
     const selectedCategoryId = selectElement.value;
     if (selectedCategoryId != "-1") {
       this.isEquipmentChecked ?
-        this.link = await this._exportService.getLinkFileEquipments(selectedCategoryId)
+        await this._exportService.exportItemsToExcel(selectedCategoryId, 1)
         :
-        this.link = await this._exportService.getLinkFileReagents(selectedCategoryId);
+        await this._exportService.exportItemsToExcel(selectedCategoryId, 2);
     }
   }
 }
