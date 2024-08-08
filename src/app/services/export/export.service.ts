@@ -37,47 +37,6 @@ export class ExportService {
   }
 
   /**
-   * Método que nos permite solicitar obtener las áreas disponibles en la base de datos.
-   * @returns Array<AreaModel> con todas las áreas.
-   */
-  async getAreas(): Promise<Array<AreaModel>> {
-    try {
-      const response: any = await this.http.get(this.apiUrl + "/areas").toPromise();
-      if (response) {
-        const { areas, message } = response;
-        if (areas) {
-          return areas;
-        }
-        this.showError('Error al obtener áreas:', message);
-      }
-    } catch (error) {
-      this.showError('Error al realizar la solicitud:', error);
-    }
-    return [];
-  }
-
-  /**
-   * Método que nos permite solicitar obtener las categorías disponibles en la base de datos.
-   * @returns Array<CategoryModel> con todas las categorías.
-   */
-  async getCategories(area_id: String): Promise<Array<CategoryModel>> {
-    try {
-      const response: any = await this.http.get(this.apiUrl + "/categories/" + area_id).toPromise();
-      if (response) {
-        const { categories, message } = response;
-        if (categories) {
-          return categories;
-        }
-        this.showError('Error al obtener categorías:', message);
-      }
-    } catch (error) {
-      this.showError('Error al realizar la solicitud:', error);
-    }
-    return [];
-  }
-
-
-  /**
    * Método que nos permite solicitar los items de tipo reactivo o equipo que están en la base de datos
    * y generar un archivo Excel con ellos.
    * @param category_id ID de la categoría para obtener los ítems.

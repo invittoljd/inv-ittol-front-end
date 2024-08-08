@@ -39,12 +39,93 @@
                     <div>
                         <div class="form-group">
                             <label for="fileInput">Seleccione un archivo Excel:</label>
-                            <input type="file" id="fileInput" (change)="onFileChange($event)" class="form-control" accept=".xlsx, .xls">
+                            <input type="file" id="fileInput" (change)="onFileChange($event)" class="form-control"
+                                accept=".xlsx, .xls">
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3" (click)="onSubmit()">Subir</button>
+                        <button type="submit" class="btn btn-primary mt-3" (click)="onSubmit()">Analizar</button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row mt-5" *ngIf="dataUpdate && dataUpdate.length > 0">
+        <p class="h1">Datos a Actualizar</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" *ngFor="let header of headers">{{header}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="isEquipmentChecked">
+                    <tr *ngFor="let item of dataUpdate">
+                        <td>{{item.name}}</td>
+                        <td>{{item.inventory}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.model}}</td>
+                        <td>{{item.serial}}</td>
+                        <td>{{item.nui}}</td>
+                        <td>{{item.location}}</td>
+                        <td>{{item.manager}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!isEquipmentChecked">
+                    <tr *ngFor="let item of dataUpdate">
+                        <td>{{item.name}}</td>
+                        <td>{{item.inventory}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.stock}}</td>
+                        <td>{{item.formula}}</td>
+                        <td>{{item.presentation}}</td>
+                        <td>{{item.lot}}</td>
+                        <td>{{item.expirationDate}}</td>
+                        <td>{{item.quantity}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-outline-dark" (click)="updateAll()">Actualizar</button>
+        </div>
+    </div>
+    <div class="row mt-5" *ngIf="dataNew && dataNew.length>0">
+        <p class="h1">Datos a Crear</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" *ngFor="let header of headers">{{header}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="isEquipmentChecked">
+                    <tr *ngFor="let item of dataNew">
+                        <td>{{item.name}}</td>
+                        <td>{{item.inventory}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.model}}</td>
+                        <td>{{item.serial}}</td>
+                        <td>{{item.nui}}</td>
+                        <td>{{item.location}}</td>
+                        <td>{{item.manager}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!isEquipmentChecked">
+                    <tr *ngFor="let item of dataNew">
+                        <td>{{item.name}}</td>
+                        <td>{{item.inventory}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.stock}}</td>
+                        <td>{{item.formula}}</td>
+                        <td>{{item.presentation}}</td>
+                        <td>{{item.lot}}</td>
+                        <td>{{item.expirationDate}}</td>
+                        <td>{{item.quantity}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <div class="col-12 d-flex justify-content-end">
+            <button class="btn btn-outline-dark" (click)="createAll()">Crear</button>
         </div>
     </div>
 </main>

@@ -1,5 +1,5 @@
 /**Imports */
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import * as XLSX from 'xlsx';
 
@@ -10,21 +10,29 @@ import { AlertModel, AlertType } from '@models/alert.model';
 import { ItemModel } from '@models/inventory/item.model';
 
 /**Services */
-import { ExportService } from '@services/export/export.service';
 import { AlertService } from '@services/shared/alert/alert.service';
 import { ImportService } from '@services/import/import.service';
+import { AreaService } from '@services/inventory/area/area.service';
+import { WaitingModalService } from '@services/shared/waitingModal/waiting-modal.service';
+import { CategoryService } from '@services/inventory/category/category.service';
+import { ItemService } from '@services/inventory/item/item.service';
 
 @Component({
   selector: 'app-import-page',
   standalone: true,
   imports: [
-    NgFor
+    NgFor,
+    NgIf
   ],
   templateUrl: './import-page.component.html',
   styleUrl: './import-page.component.css'
 })
 export class ImportPageComponent {
-  data: any[] = [];
+  /**Variables for tables */
+  headers: Array<any> = [];
+  dataRaw: Array<ItemModel> = [];
+  dataNew: Array<ItemModel> = [];
+  dataUpdate: Array<ItemModel> = [];
 
   /**Variables */
   areas?: Array<AreaModel>;
@@ -33,9 +41,11 @@ export class ImportPageComponent {
   selectedCategoryId?: String;
 
   /**Injects */
+  private _waitingModalService = inject(WaitingModalService);
   private _alertService = inject(AlertService);
-  private _exportService = inject(ExportService);
-  private _importService = inject(ImportService);
+  private _areaService = inject(AreaService);
+  private _categoryService = inject(CategoryService);
+  private _itemService = inject(ItemService);
 
   /**Método que se ejecuta al iniciar nuestro componente */
   async ngOnInit() {
@@ -43,14 +53,20 @@ export class ImportPageComponent {
   }
 
   async getAreas() {
-    this.areas = await this._exportService.getAreas();
+    this.areas = await this._areaService.getAreas();
+    this.dataNew = [];
+    this.dataUpdate = [];
+    this.categories = [];
   }
 
   async onAreaChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedAreaIdValue = selectElement.value;
     if (selectedAreaIdValue != "-1") {
-      this.categories = await this._exportService.getCategories(selectedAreaIdValue);
+      const area = await this._areaService.getArea(selectedAreaIdValue);
+      this.categories = area?.categories;
+      this.dataNew = [];
+      this.dataUpdate = [];
     }
   }
 
@@ -64,7 +80,6 @@ export class ImportPageComponent {
 
   onFileChange(event: any): void {
     const target: DataTransfer = <DataTransfer>(event.target);
-
     if (target.files.length !== 1) {
       const alert: AlertModel = {
         type: AlertType.Danger,
@@ -76,19 +91,29 @@ export class ImportPageComponent {
 
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
+      this._waitingModalService.setIsWaiting(true);
       const bstr: string = e.target.result;
       const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
       const wsname: string = wb.SheetNames[0];
       const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      this.data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      const data: Array<Array<string>> = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      if (data.length > 2) {
+        this.headers = data[0];
+        this.dataRaw = this.convertToItems(data.slice(1), (this.isEquipmentChecked ? 1 : 2));
+      } else {
+        this.headers = [];
+        this.dataRaw = [];
+      }
+      this._waitingModalService.setIsWaiting(false);
     };
     reader.readAsBinaryString(target.files[0]);
   }
 
   async onSubmit() {
-    if (!this.data) {
+    this._waitingModalService.setIsWaiting(true);
+    if (!this.dataRaw || !this.headers) {
       const alert: AlertModel = {
         type: AlertType.Danger,
         text: 'Error al cargar datos'
@@ -96,59 +121,132 @@ export class ImportPageComponent {
       this._alertService.addAlert(alert);
       return;
     }
-    const headers = this.data[0];
-    this.data = this.data.slice(1);
-    let items;
-    if (this.isEquipmentChecked) {
-      const equipments: Array<ItemModel> = [];
-      for (let index = 0; index < this.data.length; index++) {
-        const equipment = this.data[index];
-        const equipmentItem: ItemModel = {
-          name: equipment[0],
-          type: 1,
-          inventory: equipment[1],
-          brand: equipment[2],
-          model: equipment[3],
-          serial: equipment[4],
-          nui: equipment[5],
-          location: equipment[6],
-          manager: equipment[7],
-        }
-        equipments.push(equipmentItem);
-      }
-      items = await this._importService.sendItems(this.selectedCategoryId, equipments);
-    } else {
-      const reagents: Array<ItemModel> = [];
-      for (let index = 0; index < this.data.length; index++) {
-        const reagent = this.data[index];
-        const reagentItem: ItemModel = {
-          name: reagent[0],
-          type: 2,
-          inventory: reagent[1],
-          brand: reagent[2],
-          stock: reagent[3],
-          formula: reagent[4],
-          presentation: reagent[5],
-          lot: reagent[6],
-          expirationDate: reagent[7],
-          quantity: reagent[8],
-        }
-        reagents.push(reagentItem);
-      }
-      items = await this._importService.sendItems(this.selectedCategoryId, reagents);
-    }
-    if (items) {
-      const alert: AlertModel = {
-        type: AlertType.Success,
-        text: 'Datos almacenados con éxito'
-      }
-      this._alertService.addAlert(alert);
-    } else {
+
+    const items = await this.getItems(this.isEquipmentChecked ? 1 : 2);
+    if (!items) {
       const alert: AlertModel = {
         type: AlertType.Danger,
         text: 'Error al cargar datos'
       }
       this._alertService.addAlert(alert);
+      return;
     }
+
+    this.dataNew = [];
+    this.dataUpdate = [];
+
+    if ((this.isEquipmentChecked && this.headers.length == 8) || (!this.isEquipmentChecked && this.headers.length == 9)) {
+      this.dataRaw.forEach((item: ItemModel) => {
+        let finded: string = '';
+        for (let index = 0; index < items.length; index++) {
+          const itemSaved = items[index];
+          if (item.inventory == itemSaved.inventory) {
+            if (itemSaved._id) {
+              finded = itemSaved._id;
+              break;
+            }
+          }
+        }
+        if (finded != '') {
+          this.dataUpdate.push({ ...item, _id: finded });
+        } else {
+          this.dataNew.push(item);
+        }
+      });
+    }
+    this._waitingModalService.setIsWaiting(false);
+  }
+
+  async getItems(type: Number) {
+    if (this.selectedCategoryId) {
+      const category = await this._categoryService.getCategory(this.selectedCategoryId);
+      if (category) {
+        const { items } = category;
+        return items;
+      }
+    }
+    return undefined;
+  }
+
+  convertToItems(dataRaw: Array<Array<string>>, type: number) {
+    const items: Array<ItemModel> = [];
+    for (let index = 0; index < dataRaw.length; index++) {
+      const element = dataRaw[index];
+      if (type == 1) {
+        const [name, inventory, brand, model, serial, nui, location, manager] = element;
+        const item: ItemModel = { name, inventory, brand, model, serial, nui, location, manager, type }
+        items.push(item);
+      } else {
+        const [name, inventory, brand, stock, formula, presentation, lot, expirationDate, quantity] = element;
+        const item: ItemModel = { name, inventory, brand, formula, presentation, lot, type }
+        const datePrb = new Date(expirationDate)
+        const quantityPrb = Number(quantity)
+        const stockPrb = Number(stock);
+        if (expirationDate && datePrb) {
+          item.expirationDate = datePrb;
+        }
+        if (quantity && quantityPrb) {
+          item.quantity = quantityPrb;
+        }
+        if (stock && stockPrb) {
+          item.stock = stockPrb;
+        }
+        items.push(item);
+      }
+    }
+    return items;
+  }
+
+  async updateAll() {
+    this._waitingModalService.setIsWaiting(true);
+    let okUpdate: Array<Boolean> = [];
+    if (this.selectedCategoryId) {
+      await this.dataUpdate.map(async (item) => {
+        const resultItem = await this._itemService.updateItem(item);
+        okUpdate.push(resultItem ? true : false);
+      });
+      if (okUpdate) {
+        const alert: AlertModel = {
+          type: AlertType.Success,
+          text: 'Operación exitosa'
+        }
+        this._alertService.addAlert(alert);
+      }
+    } else {
+      const alert: AlertModel = {
+        type: AlertType.Danger,
+        text: 'Error al cargar datos, favor de notificar, no cerrar esta ventana ni recargar el sistema'
+      }
+      console.log(okUpdate)
+      this._alertService.addAlert(alert);
+    }
+    this._waitingModalService.setIsWaiting(false);
+  }
+  async createAll() {
+    this._waitingModalService.setIsWaiting(true);
+    let okCreate: Array<Boolean> = [];
+    if (this.selectedCategoryId) {
+      await this.dataNew.map(async (item) => {
+        if (this.selectedCategoryId) {
+          const resultItem = await this._itemService.addItem(this.selectedCategoryId, [], item);
+          okCreate.push(resultItem ? true : false);
+        }
+      });
+      if (okCreate) {
+        const alert: AlertModel = {
+          type: AlertType.Success,
+          text: 'Operación exitosa'
+        }
+        this._alertService.addAlert(alert);
+      }
+    } else {
+      const alert: AlertModel = {
+        type: AlertType.Danger,
+        text: 'Error al cargar datos, favor de notificar, no cerrar esta ventana ni recargar el sistema'
+      }
+      console.log(okCreate)
+      this._alertService.addAlert(alert);
+    }
+    this._waitingModalService.setIsWaiting(false);
   }
 }

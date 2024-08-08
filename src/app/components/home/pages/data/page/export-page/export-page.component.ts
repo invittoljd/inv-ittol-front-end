@@ -6,8 +6,9 @@ import { Component, inject } from '@angular/core';
 import { AreaModel } from '@models/inventory/area.model';
 import { CategoryModel } from '@models/inventory/category.model';
 
-/**Exports */
+/**Services */
 import { ExportService } from '@services/export/export.service';
+import { AreaService } from '@services/inventory/area/area.service';
 
 @Component({
   selector: 'app-export-page',
@@ -29,6 +30,7 @@ export class ExportPageComponent {
 
   /**Injects */
   private _exportService = inject(ExportService);
+  private _areaService = inject(AreaService);
 
   /**Método que se ejecuta al iniciar nuestro componente */
   async ngOnInit() {
@@ -36,13 +38,15 @@ export class ExportPageComponent {
   }
 
   async getAreas() {
-    this.areas = await this._exportService.getAreas();
+    this.areas = await this._areaService.getAreas();
+    this.categories = [];
   }
   async onAreaChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedAreaIdValue = selectElement.value;
     if (selectedAreaIdValue != "-1") {
-      this.categories = await this._exportService.getCategories(selectedAreaIdValue);
+      const area = await this._areaService.getArea(selectedAreaIdValue);
+      this.categories = area?.categories;
     }
   }
 
