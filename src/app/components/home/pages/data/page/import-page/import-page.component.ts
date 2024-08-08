@@ -199,11 +199,11 @@ export class ImportPageComponent {
 
   async updateAll() {
     this._waitingModalService.setIsWaiting(true);
-    let okUpdate: Array<Boolean> = [];
+    let okUpdate: Array<ItemModel|undefined> = [];
     if (this.selectedCategoryId) {
       await this.dataUpdate.map(async (item) => {
         const resultItem = await this._itemService.updateItem(item);
-        okUpdate.push(resultItem ? true : false);
+        okUpdate.push(resultItem);
       });
       if (okUpdate) {
         const alert: AlertModel = {
@@ -224,12 +224,12 @@ export class ImportPageComponent {
   }
   async createAll() {
     this._waitingModalService.setIsWaiting(true);
-    let okCreate: Array<Boolean> = [];
+    let okCreate: Array<ItemModel|undefined> = [];
     if (this.selectedCategoryId) {
       await this.dataNew.map(async (item) => {
         if (this.selectedCategoryId) {
           const resultItem = await this._itemService.addItem(this.selectedCategoryId, [], item);
-          okCreate.push(resultItem ? true : false);
+          okCreate.push(resultItem);
         }
       });
       if (okCreate) {

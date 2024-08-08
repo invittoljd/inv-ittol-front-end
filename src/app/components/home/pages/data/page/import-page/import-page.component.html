@@ -28,6 +28,7 @@
                     <select id="category" class="form-select" aria-label="Seleccionar categoría"
                         (change)="onCategoryChange($event)">
                         <option [value]="-1" selected>Seleccionar Categoría</option>
+                        
                         <option [value]="category._id" *ngFor="let category of categories">{{category.name}}</option>
                     </select>
                 </div>
