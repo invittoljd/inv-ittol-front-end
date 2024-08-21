@@ -1,6 +1,6 @@
 /**Imports */
 import { NgIf } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 
 /**Models */
@@ -58,22 +58,49 @@ export class ItemRequestComponent {
       startDate: new FormControl('', [
       ]),
       endDate: new FormControl('', [
-        this.dateRangeValidator
       ]),
-      quantity: new FormControl('', [
-        Validators.min(1)
-      ]),
-    });
+      quantity: new FormControl(0, []),
+    }, { validators: this.dateRangeValidator('startDate', 'endDate') });
+  }
+
+  // Detectamos los cambios del input
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['item'] && this.item) {
+      this.updateDateValidators();
+    }
+  }
+
+  // Modificamos las fechas para ver si son requeridas
+  updateDateValidators() {
+    const startDateControl = this.formRequest.get('startDate');
+    const endDateControl = this.formRequest.get('endDate');
+    const quantityControl = this.formRequest.get('quantity');
+
+    if (this.item?.type === 1) {
+      startDateControl?.setValidators([Validators.required]);
+      endDateControl?.setValidators([Validators.required]);
+      quantityControl?.clearValidators();
+    } else {
+      startDateControl?.clearValidators();
+      endDateControl?.clearValidators();
+      quantityControl?.setValidators([Validators.required, Validators.min(1)]);
+    }
+
+    startDateControl?.updateValueAndValidity();
+    endDateControl?.updateValueAndValidity();
   }
 
   // Validador personalizado para asegurar que endDate es posterior a startDate
-  dateRangeValidator(group: AbstractControl): ValidationErrors | null {
-    const startDate = group.get('startDate')?.value;
-    const endDate = group.get('endDate')?.value;
-    if (!startDate || !endDate) {
-      return null; // No validar si una de las fechas no está establecida
-    }
-    return endDate > startDate ? null : { dateRangeInvalid: true };
+  dateRangeValidator(startDateKey: string, endDateKey: string) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const startDate = control.get(startDateKey)?.value;
+      const endDate = control.get(endDateKey)?.value;
+
+      if (startDate && endDate && new Date(startDate) >= new Date(endDate)) {
+        return { dateRangeInvalid: true };
+      }
+      return null;
+    };
   }
 
   /**
@@ -93,6 +120,7 @@ export class ItemRequestComponent {
       text: "Error al solicitar, favor de revisar",
       type: AlertType.Danger
     };
+    console.log(this.formRequest)
     if (this.formRequest.valid && this.item && this.item._id) {
       const { username, about, startDate, endDate, quantity } = this.formRequest.value; // Obtenemos la información ingresada por el usuario.
       const request: RequestModel = {

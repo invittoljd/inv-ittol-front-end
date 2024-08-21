@@ -27,9 +27,17 @@ export class RequestCardComponent {
     }
   }
 
-  getDate(date: Date | undefined) {
+  // Formateamos la fecha en un formato que se desee
+  getDate(date: Date | undefined): string {
     if (date) {
-      return new Date(date).toDateString();
+      return new Date(date).toLocaleString('es-ES', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false // Esto es para usar el formato 24 horas
+      });
     }
     return 'Sin información';
   }

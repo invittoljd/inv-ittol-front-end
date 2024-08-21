@@ -1,6 +1,6 @@
 /**Imports */
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, SimpleChanges, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 /**Models */
@@ -33,7 +33,7 @@ export class ItemAddComponent {
   formItem: FormGroup = new FormGroup({});
 
   /**Variables */
-  isEquipment: boolean = true;
+  isEquipment?: boolean;
 
   isBrandChecked: boolean = false;
   isInventoryChecked: boolean = false;
@@ -119,6 +119,22 @@ export class ItemAddComponent {
   }
 
   /**
+  * Método que se ejecuta cada vez que cambian las entradas.
+  */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['category']) {
+      this.updateIsEquipment();
+    }
+  }
+
+  /**
+   * Método para actualizar la variable isEquipment.
+   */
+  private updateIsEquipment(): void {
+    this.isEquipment = this.category?.name == 'Equipos';
+  }
+
+  /**
    * Método que nos permite realizar la solicitud de agregar un item a la categoría.
    */
   async sendItem() {
@@ -129,10 +145,48 @@ export class ItemAddComponent {
       type: AlertType.Danger
     };
     if (this.formItem.valid && this.category && this.category._id) {
-      const { name, brand, model, serial, inventory, nui, location, manager, stock, formula, presentation, lot, expirationDate, quantity } = this.formItem.value;
+      let { name, brand, model, serial, inventory, nui, location, manager, stock, formula, presentation, lot, expirationDate, quantity } = this.formItem.value;
+      // Verifica cada campo según el estado del checkbox correspondiente
+      if (!this.isBrandChecked) {
+        brand = undefined;
+      }
+      if (!this.isModelChecked) {
+        model = undefined;
+      }
+      if (!this.isSerialChecked) {
+        serial = undefined;
+      }
+      if (!this.isInventoryChecked) {
+        inventory = undefined;
+      }
+      if (!this.isNUIChecked) {
+        nui = undefined;
+      }
+      if (!this.isLocationChecked) {
+        location = undefined;
+      }
+      if (!this.isManagerChecked) {
+        manager = undefined;
+      }
+      if (!this.isStockChecked) {
+        stock = undefined;
+      }
+      if (!this.isFormulaChecked) {
+        formula = undefined;
+      }
+      if (!this.isPresentationChecked) {
+        presentation = undefined;
+      }
+      if (!this.isLotChecked) {
+        lot = undefined;
+      }
+      if (!this.isExpirationDateChecked) {
+        expirationDate = undefined;
+      }
       const item: ItemModel = {
         name, type: this.isEquipment ? 1 : 2, brand, model, serial, inventory, nui, location, manager, stock, formula, presentation, lot, expirationDate, quantity
       };
+
       const added = await this._itemService.addItem(this.category._id, this.category.items, item);
       if (added) {
         this.formItem.reset();
@@ -145,5 +199,20 @@ export class ItemAddComponent {
     }
     this._alertService.addAlert(alert);
     this._waitingModalService.setIsWaiting(false);
+  }
+
+  resetCheckedFlags() {
+    this.isBrandChecked = false;
+    this.isModelChecked = false;
+    this.isSerialChecked = false;
+    this.isInventoryChecked = false;
+    this.isNUIChecked = false;
+    this.isLocationChecked = false;
+    this.isManagerChecked = false;
+    this.isStockChecked = false;
+    this.isFormulaChecked = false;
+    this.isPresentationChecked = false;
+    this.isLotChecked = false;
+    this.isExpirationDateChecked = false;
   }
 }

@@ -24,6 +24,14 @@
                     <label for="name">Nombre del Equipo</label>
                     <p class="h6" id="name">{{item?.name}}</p>
                 </div>
+                <div class="mb-3" *ngIf="item?.inventory">
+                    <label for="inventory"># Inventario</label>
+                    <p class="h6" id="inventory">{{item?.inventory}}</p>
+                </div>
+                <div class="mb-3" *ngIf="item?.nui">
+                    <label for="nui"># NUI</label>
+                    <p class="h6" id="nui">{{item?.nui}}</p>
+                </div>
                 <div class="mb-3">
                     <label for="about" class="form-label">Información sobre la solicitud</label>
                     <textarea formControlName="about" class="form-control" id="about" placeholder="Se solicita para ..."

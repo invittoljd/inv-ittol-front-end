@@ -8,13 +8,23 @@
             <form class="modal-body" [formGroup]="formItem" (ngSubmit)="sendItem()">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="isEquipment"
-                        (change)="isEquipment=!isEquipment" checked>
-                    <label class="form-check-label" for="isEquipment">¿Es un equipo?</label>
+                        (change)="isEquipment=!isEquipment; resetCheckedFlags()">
+                    <label class="form-check-label" for="isEquipment">Categoría detectada como {{isEquipment?"Equipo":"Reactivo"}}, ¿Cambiar?</label>
                 </div>
                 <div class="mb-3">
                     <label for="name">Nombre del item</label>
                     <input formControlName="name" type="text" class="form-control" id="name"
                         placeholder="Nombre del item" />
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="addinventory"
+                        (change)="isInventoryChecked=!isInventoryChecked">
+                    <label class="form-check-label" for="addinventory">¿Agregar número de inventario?</label>
+                </div>
+                <div class="mb-3" *ngIf="isInventoryChecked">
+                    <label for="inventory">Número de inventario del item</label>
+                    <input formControlName="inventory" type="text" class="form-control" id="inventory"
+                        placeholder="Número de inventario del item" />
                 </div>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="addbrand"
@@ -49,18 +59,6 @@
                         <input formControlName="serial" type="text" class="form-control" id="serial"
                             placeholder="Número de serie del item" />
                     </div>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="addinventory"
-                            (change)="isInventoryChecked=!isInventoryChecked">
-                        <label class="form-check-label" for="addinventory">¿Agregar número de inventario?</label>
-                    </div>
-                    <div class="mb-3" *ngIf="isInventoryChecked">
-                        <label for="inventory">Número de inventario del item</label>
-                        <input formControlName="inventory" type="text" class="form-control" id="inventory"
-                            placeholder="Número de inventario del item" />
-                    </div>
-
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="addnui"
                             (change)="isNUIChecked=!isNUIChecked">
@@ -150,17 +148,6 @@
                         <label for="expirationDate">Fecha de caducidad item</label>
                         <input formControlName="expirationDate" type="date" class="form-control" id="expirationDate"
                             placeholder="Fecha de caducidad item" />
-                    </div>
-
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="addQuantity"
-                            (change)="isQuantityChecked=!isQuantityChecked">
-                        <label class="form-check-label" for="addQuantity">¿Agregar cantidad por unidad?</label>
-                    </div>
-                    <div class="mb-3" *ngIf="isQuantityChecked">
-                        <label for="quantity">Cantidad por unidad del item</label>
-                        <input formControlName="quantity" type="number" step="0.01" class="form-control" id="quantity"
-                            placeholder="Cantidad por unidad del item" />
                     </div>
                 </ng-container>
             </form>

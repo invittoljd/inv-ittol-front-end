@@ -34,21 +34,31 @@ export class ItineraryPageComponent {
   private _requestService = inject(RequestService);
 
   ngOnInit(): void {
+    // Obtener la fecha actual
     const today = new Date();
-    const formattedDate = today.toISOString().substring(0, 10); // Formato 'yyyy-MM-dd'
+
+    // Obtener las partes de la fecha en hora local
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2); // Meses en JavaScript son 0-indexados
+    const day = ('0' + today.getDate()).slice(-2);
+
+    // Formatear la fecha como 'yyyy-MM-dd'
+    const formattedDate = `${year}-${month}-${day}`;
 
     this.formDate = new FormGroup({
-      date: new FormControl(formattedDate, [
-        Validators.required
-      ])
+        date: new FormControl(formattedDate, [
+            Validators.required
+        ])
     });
-  }
+}
+
 
   async submit() {
     if (this.formDate.valid) {
       const { date } = this.formDate.value;
       this._waitingModalService.setIsWaiting(true);
       this.requests = await this._requestService.getRequestsToday(date);
+      console.log(this.requests)
       this.generateSchedule(this.requests, date);
       this._waitingModalService.setIsWaiting(false);
     }

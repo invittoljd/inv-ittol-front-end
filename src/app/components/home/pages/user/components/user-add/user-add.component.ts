@@ -39,7 +39,8 @@ export class UserAddComponent {
     this.formUser = new FormGroup({
       username: new FormControl('', [
         Validators.required,
-        Validators.min(0)
+        Validators.minLength(4),
+        Validators.maxLength(20)
       ]),
       type: new FormControl('', [
         Validators.required,

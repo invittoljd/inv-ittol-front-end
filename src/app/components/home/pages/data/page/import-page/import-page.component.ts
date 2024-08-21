@@ -140,7 +140,7 @@ export class ImportPageComponent {
         let finded: string = '';
         for (let index = 0; index < items.length; index++) {
           const itemSaved = items[index];
-          if (item.inventory == itemSaved.inventory) {
+          if (item.inventory == itemSaved.inventory || item.nui == itemSaved.nui) {
             if (itemSaved._id) {
               finded = itemSaved._id;
               break;

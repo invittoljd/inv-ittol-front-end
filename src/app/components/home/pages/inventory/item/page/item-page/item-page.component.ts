@@ -27,9 +27,6 @@ import { ItemRequestComponent } from "@home-inventory/item/components/item-reque
   imports: [
     ItemCardsComponent,
     ItemAddComponent,
-    // ItemShowEquipmentComponent,
-    // ItemEditEquipmentComponent,
-    // ItemRequestEquipmentComponent,
     NgIf,
     ItemEditComponent,
     ItemShowComponent,

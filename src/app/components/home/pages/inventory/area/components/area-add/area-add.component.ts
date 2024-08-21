@@ -6,11 +6,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 /**Models */
 import { AlertModel, AlertType } from '@models/alert.model';
 import { AreaModel } from '@models/inventory/area.model';
+import { CategoryModel } from '@models/inventory/category.model';
 
 /**Services */
 import { AreaService } from '@services/inventory/area/area.service';
+import { CategoryService } from '@services/inventory/category/category.service';
 import { AlertService } from '@services/shared/alert/alert.service';
-import { WaitingModalService } from '@services/shared/waitingModal/waiting-modal.service';
 
 @Component({
   selector: 'app-area-add',
@@ -29,6 +30,7 @@ export class AreaAddComponent {
 
   /**Injects */
   private _areaService = inject(AreaService);
+  private _categoryService = inject(CategoryService);
   private _alertService = inject(AlertService);
 
   /**FormGroups */
@@ -78,7 +80,21 @@ export class AreaAddComponent {
         name, about, src: this.iconSelected, categories: []
       };
       const areaSaved = await this._areaService.addArea(this.areas, area);
-      if (areaSaved) {
+      if (areaSaved && areaSaved._id) {
+        const equipmentCategory: CategoryModel = {
+          name: "Equipos",
+          about: "Equipos del área: " + name,
+          items: [],
+          src: 'assets/inventory/category/equipment.svg'
+        }
+        const reagentsCategory: CategoryModel = {
+          name: "Reactivos",
+          about: "Reactivos del área: " + name,
+          items: [],
+          src: 'assets/inventory/category/base.svg'
+        }
+        await this._categoryService.addCategory(areaSaved._id, areaSaved.categories, equipmentCategory);
+        await this._categoryService.addCategory(areaSaved._id, areaSaved.categories, reagentsCategory);
         this.formArea.reset();
         alert = {
           keep: false,
