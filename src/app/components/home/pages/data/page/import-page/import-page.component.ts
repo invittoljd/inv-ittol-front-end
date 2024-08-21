@@ -225,13 +225,20 @@ export class ImportPageComponent {
   async createAll() {
     this._waitingModalService.setIsWaiting(true);
     let okCreate: Array<ItemModel|undefined> = [];
+    console.log(this.selectedCategoryId)
     if (this.selectedCategoryId) {
       await this.dataNew.map(async (item) => {
         if (this.selectedCategoryId) {
+          console.log('------------------------------')
+          console.log('Mandando item: ')
+          console.log(item)
           const resultItem = await this._itemService.addItem(this.selectedCategoryId, [], item);
+          console.log('Recibiendo respuesta:')
+          console.log(resultItem)
           okCreate.push(resultItem);
         }
       });
+      console.log(okCreate.length == this.dataNew.length)
       if (okCreate) {
         const alert: AlertModel = {
           type: AlertType.Success,
