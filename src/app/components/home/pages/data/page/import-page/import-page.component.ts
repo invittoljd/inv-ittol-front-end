@@ -199,7 +199,7 @@ export class ImportPageComponent {
 
   async updateAll() {
     this._waitingModalService.setIsWaiting(true);
-    let okUpdate: Array<ItemModel|undefined> = [];
+    let okUpdate: Array<ItemModel | undefined> = [];
     if (this.selectedCategoryId) {
       await this.dataUpdate.map(async (item) => {
         const resultItem = await this._itemService.updateItem(item);
@@ -224,34 +224,27 @@ export class ImportPageComponent {
   }
   async createAll() {
     this._waitingModalService.setIsWaiting(true);
-    let okCreate: Array<ItemModel|undefined> = [];
-    console.log(this.selectedCategoryId)
-    if (this.selectedCategoryId) {
-      await this.dataNew.map(async (item) => {
-        if (this.selectedCategoryId) {
-          console.log('------------------------------')
-          console.log('Mandando item: ')
-          console.log(item)
-          const resultItem = await this._itemService.addItem(this.selectedCategoryId, [], item);
-          console.log('Recibiendo respuesta:')
-          console.log(resultItem)
-          okCreate.push(resultItem);
-        }
-      });
-      console.log(okCreate.length == this.dataNew.length)
-      if (okCreate) {
-        const alert: AlertModel = {
-          type: AlertType.Success,
-          text: 'Operación exitosa'
-        }
-        this._alertService.addAlert(alert);
+    if (this.selectedCategoryId && this.dataNew) {
+      for (let index = 0; index < this.dataNew.length; index++) {
+        const item = this.dataNew[index];
+        console.log('------------------------------')
+        console.log('Mandando item: ')
+        console.log(item)
+        const resultItem = await this._itemService.addItem(this.selectedCategoryId, [], item);
+        console.log('Recibiendo respuesta:')
+        console.log(resultItem)
+        
       }
+      const alert: AlertModel = {
+        type: AlertType.Success,
+        text: 'Operación exitosa'
+      }
+      this._alertService.addAlert(alert);
     } else {
       const alert: AlertModel = {
         type: AlertType.Danger,
         text: 'Error al cargar datos, favor de notificar, no cerrar esta ventana ni recargar el sistema'
       }
-      console.log(okCreate)
       this._alertService.addAlert(alert);
     }
     this._waitingModalService.setIsWaiting(false);

@@ -20,4 +20,5 @@ export interface ItemModel extends CollectionModel {
     expirationDate?: Date,
     stock?: number,
     quantity?: number,
+    created?: boolean
 }
